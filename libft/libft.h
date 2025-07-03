@@ -1,91 +1,3 @@
-Can you help me creating the C program `pipex`?
-- the program should be executed as follows:
-```bash
-./pipex file1 cmd1 cmd2 file2
-```
-- the program takes 4 arguments:
-  - `file1` and `file2` are **file names**
-  - `cmd1` and `cmd2` are **shell commands** with their parameters
-- it must behave exactly like the following shell command:
-```bash
-$> < file1 cmd1 | cmd2 > file2
-```
-
-## Examples
-
-```bash
-$> ./pipex infile "ls -l" "wc -l" outfile
-```
-- Its behavior should be equivalent to:
-```bash
-$> < infile ls -l | wc -l > outfile
-```
-
-<BR>
-
-```bash
-$> ./pipex infile "grep a1" "wc -w" outfile
-```
-- its behavior should be equivalent to:
-```bash
-$> < infile grep a1 | wc -w > outfile
-```
-
-## Details
-
-- program name: `pipex`
-- program files: `Makefile`, `*.h`, `*.c`
-- Makefile rules: `NAME`, `all`, `clean`, `fclean`, `re`
-- arguments: `file`, `cmd1`, `cmd2`, `file2`
-- `libft` authorized, `libft.h` file included at the end
-- allowed external functions: `open`, `close`, `read`, `write`, `malloc`, `free`, `perror`, `strerror`, `access`, `dup`, `dup2`, `execve`, `exit`, `fork`, `pipe`, `unlink`, `wait`, `waitpid` + any function from `libft`, including `ft_printf` or `get_next_line`
-
-## Requirements
-
-- no memory leaks
-- errors should be handled the same way as the shell command
-```bash
-< file1 cmd1 | cmd2 > file2
-```
-
-## Handle multiple pipes
-
-This:
-```bash
-$> ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
-```
-should behave like:
-```bash
-< file1 cmd1 | cmd2 | cmd3 ... cmdn > file2
-```
-
-## Support << and >> when the first parameter is 'here_doc'
-
-This:
-```bash
-$> .pipex here_doc LIMITER cmd cmd1 file
-```
-should behave like:
-```bash
-cmd << LIMITER | cmd1 >> file
-```
-
-## The Norminette rules should be adhered:
-- only while loops are allowed
-- ternary operators are not allowed
-- variable definition and variable assignment in separate rows
-- one empty line after variable definitions, no other empty lines
-- only one variable definition/assignment on a line
-- only one instruction on a single line
-- the comments should be placed outside the function definition
-- max 80 characters / line
-- max 4 parameters / function
-- max 5 variables / function
-- max 25 lines / function
-- max 5 functions / .c file
-
-`libft.h` file content:
-```c
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -170,46 +82,48 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 
 typedef struct s_flags
 {
-	int	minus;
-	int	zero;
-	int	width;
-	int	dot;
-	int	precision;
-	int	hash;
-	int	space;
-	int	plus;
-}		t_flags;
+	int				minus;
+	int				zero;
+	int				width;
+	int				dot;
+	int				precision;
+	int				hash;
+	int				space;
+	int				plus;
+}					t_flags;
 
-int		ft_printf(const char *format, ...);
+int					ft_printf(const char *format, ...);
 
 // parsing and dispatching
-int		ft_eval_format(va_list args, const char *format, int *i);
-t_flags	ft_init_flags(void);
-void	ft_parse_flags_width_prec(t_flags *flags, const char *format, int *i);
-int		ft_dispatch(char type, t_flags flags, va_list args);
+int					ft_eval_format(va_list args, const char *format, int *i);
+t_flags				ft_init_flags(void);
+void				ft_parse_flags_width_prec(t_flags *flags,
+						const char *format, int *i);
+int					ft_dispatch(char type, t_flags flags, va_list args);
 
 // print functions for each conversion specifier
-int		ft_print_char(char c, t_flags flags);
-int		ft_print_str(char *str, t_flags flags);
-int		ft_print_ptr(uintptr_t ptr, t_flags flags);
-int		ft_print_nbr(int n, t_flags flags);
-int		ft_print_unsigned(unsigned int n, t_flags flags);
-int		ft_print_hex(unsigned int n, t_flags flags, char format);
+int					ft_print_char(char c, t_flags flags);
+int					ft_print_str(char *str, t_flags flags);
+int					ft_print_ptr(uintptr_t ptr, t_flags flags);
+int					ft_print_nbr(int n, t_flags flags);
+int					ft_print_unsigned(unsigned int n, t_flags flags);
+int					ft_print_hex(unsigned int n, t_flags flags, char format);
 
 // utility functions
-int		ft_print_padding(char c, int len);
-char	*ft_utoa(unsigned int n);
-void	ft_strrev(char *s, int len);
-int		ft_ptr_len(uintptr_t num);
-void	ft_put_ptr(uintptr_t num);
+int					ft_print_padding(char c, int len);
+char				*ft_utoa(unsigned int n);
+void				ft_strrev(char *s, int len);
+int					ft_ptr_len(uintptr_t num);
+void				ft_put_ptr(uintptr_t num);
 
 /* ******************* Added from get_next_line ************************* */
 
-char	*get_next_line(int fd);
-size_t	gnl_strlen(char *s);
-char	*gnl_strchr(char *s, int c);
-char	*gnl_strjoin(char *s1, char *s2);
-char	*gnl_substr(char *s, unsigned int start, size_t len);
+char				*get_next_line(int fd);
+size_t				gnl_strlen(char *s);
+char				*gnl_strchr(char *s, int c);
+char				*gnl_strjoin(char *s1, char *s2);
+char				*gnl_substr(char *s, unsigned int start, size_t len);
 
 #endif
-```
+
+// grep -E '^[a-zA-Z_][a-zA-Z0-9_ \t\*]*.*ft_' *.c
