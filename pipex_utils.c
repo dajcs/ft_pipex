@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:29:33 by anemet            #+#    #+#             */
-/*   Updated: 2025/07/04 15:21:47 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/06 22:58:48 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*scan_all_paths(char **all_paths, char *command)
 			free_string_array(all_paths);
 			return (cmd_path);
 		}
+		free(cmd_path);
 		i++;
 	}
 	free_string_array(all_paths);

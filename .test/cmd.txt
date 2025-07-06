@@ -1,0 +1,2 @@
+./pipex infile "grep a" "sort" "uniq -c" outfile
+
