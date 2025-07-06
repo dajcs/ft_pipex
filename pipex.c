@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anemet <anemet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 13:07:50 by anemet            #+#    #+#             */
-/*   Updated: 2025/07/04 14:16:48 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/06 19:24:56 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 // handles the first child process (cmd1):
+// - pipe_fd[1] - is the write end of the pipe (data goes in)
 //     - opens the infile (file1)
 //     - redirects (dup2) stdin to infile (get input data from file1)
 //     - redirects (dup2) stdout to the write-end of the pipe
@@ -34,6 +35,7 @@ void	child_one_process(char **argv, int *pipe_fd, char **envp)
 }
 
 // handles the second child process (cmd2):
+// - pipe_fd[0] - is the read end of the pipe (data comes out)
 //     - opens the outfile (file2)
 //     - redirects (dup2) stdin to the read-end of the pipe
 //     - redirects (dup2) stdout to the outfile (file2)
