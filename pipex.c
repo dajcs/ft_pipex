@@ -6,7 +6,7 @@
 /*   By: anemet <anemet@student.42luxembourg.lu>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 13:07:50 by anemet            #+#    #+#             */
-/*   Updated: 2025/07/06 19:24:56 by anemet           ###   ########.fr       */
+/*   Updated: 2025/07/06 23:31:09 by anemet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,17 @@ void	child_two_process(char **argv, int *pipe_fd, char **envp)
 }
 
 // waits for child processes to finish and returns exit status of the last one
+// Waits for all child processes to complete.
+// Returns the exit status of the last command in the pipeline
+// wait() suspends execution of current (parent) process until a child finishes
+// returns the PID of the child
+// sets the status variable with a bitmask
+// WIFEXITED - macro to ask if terminate normally by calling exit()
+// WEXITSTATUS - macro to get exit code e.g. 0 success, 127 command not found
+// WIFSIGNALED - macro to ask if terminated by signal (e.g. kill <pid>)
+// WTERMSIG - to get the killer signal id
+// standard way: wait() -> WIFEXITED -> WEXITSTATUS
+// only the last_pid exit status matters, because that is replicating the shell
 int	wait_for_children(pid_t pid1, pid_t pid2)
 {
 	int	status;
