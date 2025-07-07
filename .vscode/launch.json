@@ -1,0 +1,63 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Follow Child Process",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/pipex",
+            "args": ["infile", "ls", "wc", "outfile"], // Your arguments go here
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Tell GDB to follow the child process after fork",
+                    "text": "set follow-fork-mode child",
+                    "ignoreFailures": false
+                }
+            ]
+        },
+        {
+            "name": "(gdb) Follow Parent Process",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/pipex",
+            "args": ["infile", "grep a", "sort", "uniq -c", "outfile"], // Your arguments go here
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Tell GDB to follow the parent process after fork (default)",
+                    "text": "set follow-fork-mode parent",
+                    "ignoreFailures": false
+                }
+            ]
+        }
+    ]
+}
